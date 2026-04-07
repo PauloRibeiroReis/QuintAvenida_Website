@@ -1,1611 +1,573 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Quinta Avenida — Comunidade Sustentável Sénior</title>
-  <meta name="description" content="Um ecossistema rural autossustentável e intergeracional, focado no envelhecimento ativo em harmonia com a natureza." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
+  <meta name="description" content="Um ecossistema rural autossustentável e intergeracional, onde tecnologia e natureza se encontram."/>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23b8dff0'/%3E%3Ctext x='32' y='42' font-family='Syne,sans-serif' font-weight='800' font-size='28' fill='%23c8953a' text-anchor='middle'%3EQA%3C/text%3E%3C/svg%3E"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
   <style>
-    /* ─── DESIGN TOKENS ─────────────────────────────────────── */
     :root {
-      --green-deep:   #1e3a2a;
-      --green-mid:    #2d5c3e;
-      --green-light:  #4a8c62;
-      --cream:        #f5f0e8;
-      --cream-dark:   #e8e0d0;
-      --terracotta:   #b85c38;
-      --gold:         #c8a96e;
-      --text-dark:    #1a1a18;
-      --text-mid:     #3d3d35;
-      --text-light:   #7a7a6e;
-      --white:        #fdfcfa;
-
-      --serif:   'Cormorant Garamond', Georgia, serif;
-      --sans:    'Jost', sans-serif;
-
-      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-    }
-
-    /* ─── RESET & BASE ──────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html { scroll-behavior: smooth; font-size: 16px; }
-
-    body {
-      font-family: var(--sans);
-      background: var(--cream);
-      color: var(--text-dark);
-      overflow-x: hidden;
-    }
-
-    img { display: block; max-width: 100%; }
-    a { text-decoration: none; color: inherit; }
-
-    /* ─── SCROLL REVEAL ─────────────────────────────────────── */
-    .reveal {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: none;
-    }
-    .reveal-delay-1 { transition-delay: 0.12s; }
-    .reveal-delay-2 { transition-delay: 0.24s; }
-    .reveal-delay-3 { transition-delay: 0.36s; }
-    .reveal-delay-4 { transition-delay: 0.48s; }
-
-    /* ─── NAV ────────────────────────────────────────────────── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 1.2rem 2.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      transition: background 0.4s, box-shadow 0.4s;
-    }
-
-    nav.scrolled {
-      background: rgba(30, 58, 42, 0.97);
-      box-shadow: 0 2px 30px rgba(0,0,0,0.2);
-      backdrop-filter: blur(12px);
-    }
-
-    .nav-logo {
-      font-family: var(--serif);
-      font-size: 1.35rem;
-      font-weight: 500;
-      color: var(--white);
-      letter-spacing: 0.04em;
-    }
-
-    .nav-logo span {
-      display: block;
-      font-size: 0.55rem;
-      font-family: var(--sans);
-      font-weight: 300;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      opacity: 0.75;
-      margin-top: 1px;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 2.2rem;
-      list-style: none;
-    }
-
-    .nav-links a {
-      font-family: var(--sans);
-      font-size: 0.72rem;
-      font-weight: 400;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.82);
-      transition: color 0.25s;
-      position: relative;
-    }
-
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -3px; left: 0;
-      width: 0; height: 1px;
-      background: var(--gold);
-      transition: width 0.3s var(--ease-out);
-    }
-
-    .nav-links a:hover { color: var(--white); }
-    .nav-links a:hover::after { width: 100%; }
-
-    .nav-cta {
-      font-family: var(--sans);
-      font-size: 0.72rem;
-      font-weight: 400;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--white);
-      border: 1px solid rgba(200, 169, 110, 0.6);
-      padding: 0.55rem 1.3rem;
-      transition: background 0.3s, border-color 0.3s;
-    }
-
-    .nav-cta:hover {
-      background: var(--gold);
-      border-color: var(--gold);
-      color: var(--green-deep);
-    }
-
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      padding: 4px;
-    }
-
-    .hamburger span {
-      display: block;
-      width: 22px;
-      height: 1.5px;
-      background: var(--white);
-      transition: all 0.3s;
-    }
-
-    /* ─── HERO ───────────────────────────────────────────────── */
-    #hero {
-      position: relative;
-      height: 100svh;
-      min-height: 600px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      background: url('https://images.unsplash.com/photo-1586348943529-beaae6c28db9?w=1800&q=80') center/cover no-repeat;
-      transform: scale(1.05);
-      transition: transform 12s var(--ease-out);
-    }
-
-    .hero-bg.loaded { transform: scale(1); }
-
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        160deg,
-        rgba(30, 58, 42, 0.75) 0%,
-        rgba(20, 38, 28, 0.55) 50%,
-        rgba(10, 20, 14, 0.7) 100%
-      );
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      padding: 2rem;
-      max-width: 900px;
-    }
-
-    .hero-eyebrow {
-      display: inline-block;
-      font-family: var(--sans);
-      font-size: 0.68rem;
-      font-weight: 400;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1.8rem;
-      opacity: 0;
-      animation: fadeUp 0.9s var(--ease-out) 0.3s forwards;
-    }
-
-    .hero-title {
-      font-family: var(--serif);
-      font-size: clamp(3.2rem, 8vw, 7rem);
-      font-weight: 300;
-      line-height: 0.95;
-      color: var(--white);
-      margin-bottom: 1.6rem;
-      opacity: 0;
-      animation: fadeUp 1s var(--ease-out) 0.5s forwards;
-    }
-
-    .hero-title em {
-      font-style: italic;
-      color: var(--gold);
-    }
-
-    .hero-subtitle {
-      font-family: var(--sans);
-      font-size: clamp(0.85rem, 2vw, 1rem);
-      font-weight: 200;
-      line-height: 1.7;
-      color: rgba(255,255,255,0.78);
-      letter-spacing: 0.06em;
-      max-width: 560px;
-      margin: 0 auto 2.8rem;
-      opacity: 0;
-      animation: fadeUp 1s var(--ease-out) 0.7s forwards;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 1.2rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      opacity: 0;
-      animation: fadeUp 1s var(--ease-out) 0.9s forwards;
-    }
-
-    .btn-primary {
-      font-family: var(--sans);
-      font-size: 0.75rem;
-      font-weight: 400;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      padding: 1rem 2.2rem;
-      background: var(--gold);
-      color: var(--green-deep);
-      border: none;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-
-    .btn-primary:hover {
-      background: var(--white);
-      transform: translateY(-2px);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.25);
-    }
-
-    .btn-outline {
-      font-family: var(--sans);
-      font-size: 0.75rem;
-      font-weight: 400;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      padding: 1rem 2.2rem;
-      background: transparent;
-      color: var(--white);
-      border: 1px solid rgba(255,255,255,0.45);
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-
-    .btn-outline:hover {
-      border-color: var(--white);
-      background: rgba(255,255,255,0.1);
-      transform: translateY(-2px);
-    }
-
-    .hero-scroll {
-      position: absolute;
-      bottom: 2.5rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.6rem;
-      opacity: 0;
-      animation: fadeUp 1s var(--ease-out) 1.2s forwards;
-      color: rgba(255,255,255,0.5);
-      font-family: var(--sans);
-      font-size: 0.6rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-    }
-
-    .scroll-line {
-      width: 1px;
-      height: 40px;
-      background: linear-gradient(to bottom, rgba(200,169,110,0.8), transparent);
-      animation: scrollLine 2s ease-in-out infinite;
-    }
-
-    @keyframes scrollLine {
-      0%, 100% { transform: scaleY(1); opacity: 0.8; }
-      50% { transform: scaleY(0.4); opacity: 0.3; }
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: none; }
-    }
-
-    /* ─── SECTION COMMONS ────────────────────────────────────── */
-    section { padding: 7rem 2rem; }
-
-    .section-inner {
-      max-width: 1180px;
-      margin: 0 auto;
-    }
-
-    .section-label {
-      font-family: var(--sans);
-      font-size: 0.65rem;
-      font-weight: 400;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1.2rem;
-    }
-
-    .section-title {
-      font-family: var(--serif);
-      font-size: clamp(2.2rem, 4.5vw, 3.8rem);
-      font-weight: 300;
-      line-height: 1.1;
-      color: var(--green-deep);
-      margin-bottom: 1.8rem;
-    }
-
-    .section-title em { font-style: italic; color: var(--terracotta); }
-
-    .section-body {
-      font-family: var(--sans);
-      font-size: 0.95rem;
-      font-weight: 300;
-      line-height: 1.85;
-      color: var(--text-mid);
-      max-width: 640px;
-    }
-
-    /* ─── DIVIDER ────────────────────────────────────────────── */
-    .divider {
-      width: 60px;
-      height: 1px;
-      background: var(--gold);
-      margin: 2rem 0;
-    }
-
-    /* ─── INTRO STRIP ────────────────────────────────────────── */
-    #intro {
-      background: var(--green-deep);
-      padding: 5rem 2rem;
-    }
-
-    .intro-grid {
-      max-width: 1180px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 0;
-    }
-
-    .intro-stat {
-      padding: 2rem 3rem;
-      border-right: 1px solid rgba(200,169,110,0.2);
-      text-align: center;
-    }
-
-    .intro-stat:last-child { border-right: none; }
-
-    .intro-stat-number {
-      font-family: var(--serif);
-      font-size: clamp(2.8rem, 5vw, 4.5rem);
-      font-weight: 300;
-      color: var(--gold);
-      line-height: 1;
-      margin-bottom: 0.6rem;
-    }
-
-    .intro-stat-label {
-      font-family: var(--sans);
-      font-size: 0.7rem;
-      font-weight: 300;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.55);
-    }
-
-    /* ─── SOBRE (VISÃO & MISSÃO) ─────────────────────────────── */
-    #sobre {
-      background: var(--white);
-    }
-
-    .sobre-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5rem;
-      align-items: center;
-    }
-
-    .sobre-image {
-      position: relative;
-      aspect-ratio: 4/5;
-      overflow: hidden;
-    }
-
-    .sobre-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 8s var(--ease-out);
-    }
-
-    .sobre-image:hover img { transform: scale(1.04); }
-
-    .sobre-image-badge {
-      position: absolute;
-      bottom: -1.5rem;
-      right: -1.5rem;
-      width: 130px;
-      height: 130px;
-      background: var(--gold);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 1rem;
-    }
-
-    .badge-text {
-      font-family: var(--serif);
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: var(--green-deep);
-      line-height: 1.25;
-    }
-
-    .badge-sub {
-      font-family: var(--sans);
-      font-size: 0.55rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--green-deep);
-      margin-top: 0.3rem;
-      opacity: 0.7;
-    }
-
-    .sobre-content .section-body + .section-body {
-      margin-top: 1.4rem;
-    }
-
-    .tag-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-      margin-top: 2rem;
-    }
-
-    .tag {
-      font-family: var(--sans);
-      font-size: 0.65rem;
-      font-weight: 400;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--green-mid);
-      border: 1px solid rgba(45, 92, 62, 0.35);
-      padding: 0.45rem 0.9rem;
-    }
-
-    /* ─── PILARES ────────────────────────────────────────────── */
-    #pilares {
-      background: var(--cream);
-      position: relative;
-      overflow: hidden;
-    }
-
-    #pilares::before {
-      content: 'IV';
-      position: absolute;
-      top: -2rem;
-      right: -1rem;
-      font-family: var(--serif);
-      font-size: 20rem;
-      font-weight: 300;
-      color: rgba(30, 58, 42, 0.04);
-      line-height: 1;
-      pointer-events: none;
-      user-select: none;
-    }
-
-    .pilares-header {
-      margin-bottom: 4rem;
-    }
-
-    .pilares-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2px;
-    }
-
-    .pilar-card {
-      background: var(--white);
-      padding: 2.5rem 2rem;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.4s var(--ease-out), box-shadow 0.4s;
-      cursor: default;
-    }
-
-    .pilar-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: var(--gold);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.4s var(--ease-out);
-    }
-
-    .pilar-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-    }
-
-    .pilar-card:hover::before { transform: scaleX(1); }
-
-    .pilar-number {
-      font-family: var(--serif);
-      font-size: 3.5rem;
-      font-weight: 300;
-      color: rgba(30,58,42,0.1);
-      line-height: 1;
-      margin-bottom: 1.5rem;
-      transition: color 0.3s;
-    }
-
-    .pilar-card:hover .pilar-number { color: var(--gold); }
-
-    .pilar-icon {
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-    }
-
-    .pilar-title {
-      font-family: var(--serif);
-      font-size: 1.35rem;
-      font-weight: 400;
-      color: var(--green-deep);
-      margin-bottom: 0.4rem;
-      line-height: 1.2;
-    }
-
-    .pilar-subtitle {
-      font-family: var(--sans);
-      font-size: 0.65rem;
-      font-weight: 400;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--terracotta);
-      margin-bottom: 1.2rem;
-    }
-
-    .pilar-body {
-      font-family: var(--sans);
-      font-size: 0.85rem;
-      font-weight: 300;
-      line-height: 1.75;
-      color: var(--text-light);
-    }
-
-    .pilar-items {
-      list-style: none;
-      margin-top: 1.2rem;
-    }
-
-    .pilar-items li {
-      font-family: var(--sans);
-      font-size: 0.8rem;
-      font-weight: 300;
-      color: var(--text-mid);
-      padding: 0.45rem 0;
-      border-bottom: 1px solid var(--cream-dark);
-      display: flex;
-      align-items: flex-start;
-      gap: 0.6rem;
-    }
-
-    .pilar-items li::before {
-      content: '—';
-      color: var(--gold);
-      flex-shrink: 0;
-      font-size: 0.75rem;
-    }
-
-    /* ─── INFRAESTRUTURA ──────────────────────────────────────── */
-    #infraestrutura {
-      background: var(--green-deep);
-      color: var(--white);
-    }
-
-    #infraestrutura .section-title { color: var(--white); }
-    #infraestrutura .section-body  { color: rgba(255,255,255,0.65); }
-
-    .infra-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 2px;
-      margin-top: 3.5rem;
-    }
-
-    .infra-card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(200,169,110,0.12);
-      padding: 2rem 1.8rem;
-      transition: background 0.35s, border-color 0.35s;
-    }
-
-    .infra-card:hover {
-      background: rgba(200,169,110,0.08);
-      border-color: rgba(200,169,110,0.35);
-    }
-
-    .infra-icon {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .infra-title {
-      font-family: var(--serif);
-      font-size: 1.15rem;
-      font-weight: 400;
-      color: var(--gold);
-      margin-bottom: 0.8rem;
-    }
-
-    .infra-body {
-      font-family: var(--sans);
-      font-size: 0.82rem;
-      font-weight: 300;
-      line-height: 1.7;
-      color: rgba(255,255,255,0.55);
-    }
-
-    /* ─── VALORES ─────────────────────────────────────────────── */
-    #valores {
-      background: var(--cream-dark);
-      padding: 6rem 2rem;
-    }
-
-    .valores-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      margin-top: 3rem;
-    }
-
-    .valor-item {
-      display: flex;
-      gap: 1.2rem;
-      align-items: flex-start;
-      padding: 1.5rem;
-      background: var(--white);
-      transition: transform 0.3s;
-    }
-
-    .valor-item:hover { transform: translateX(6px); }
-
-    .valor-letter {
-      font-family: var(--serif);
-      font-size: 2.2rem;
-      font-weight: 300;
-      color: var(--gold);
-      line-height: 1;
-      flex-shrink: 0;
-    }
-
-    .valor-text strong {
-      display: block;
-      font-family: var(--sans);
-      font-size: 0.75rem;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--green-deep);
-      margin-bottom: 0.3rem;
-    }
-
-    .valor-text p {
-      font-family: var(--sans);
-      font-size: 0.8rem;
-      font-weight: 300;
-      line-height: 1.6;
-      color: var(--text-light);
-    }
-
-    /* ─── FINANCIAMENTO ───────────────────────────────────────── */
-    #financiamento {
-      background: var(--white);
-    }
-
-    .fin-intro {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: start;
-      margin-bottom: 4rem;
-    }
-
-    .fin-list {
-      list-style: none;
-      margin-top: 2rem;
-    }
-
-    .fin-list li {
-      display: flex;
-      gap: 1rem;
-      align-items: flex-start;
-      padding: 1.2rem 0;
-      border-bottom: 1px solid var(--cream-dark);
-    }
-
-    .fin-bullet {
-      width: 6px;
-      height: 6px;
-      background: var(--gold);
-      border-radius: 50%;
-      margin-top: 0.5rem;
-      flex-shrink: 0;
-    }
-
-    .fin-list-text strong {
-      display: block;
-      font-family: var(--sans);
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: var(--green-deep);
-      margin-bottom: 0.2rem;
-    }
-
-    .fin-list-text span {
-      font-family: var(--sans);
-      font-size: 0.78rem;
-      font-weight: 300;
-      color: var(--text-light);
-    }
-
-    /* ─── PRÓXIMOS PASSOS ─────────────────────────────────────── */
-    #proximos {
-      background: var(--cream);
-    }
-
-    .steps-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2.5rem;
-      margin-top: 3.5rem;
-    }
-
-    .step-item {
-      position: relative;
-      padding-left: 1.5rem;
-      border-left: 2px solid var(--cream-dark);
-      transition: border-color 0.3s;
-    }
-
-    .step-item:hover { border-color: var(--gold); }
-
-    .step-num {
-      font-family: var(--serif);
-      font-size: 3rem;
-      font-weight: 300;
-      color: var(--cream-dark);
-      line-height: 1;
-      margin-bottom: 0.8rem;
-      transition: color 0.3s;
-    }
-
-    .step-item:hover .step-num { color: var(--gold); }
-
-    .step-title {
-      font-family: var(--serif);
-      font-size: 1.3rem;
-      font-weight: 400;
-      color: var(--green-deep);
-      margin-bottom: 0.7rem;
-    }
-
-    .step-body {
-      font-family: var(--sans);
-      font-size: 0.83rem;
-      font-weight: 300;
-      line-height: 1.7;
-      color: var(--text-light);
-    }
-
-    /* ─── CONTACTO ────────────────────────────────────────────── */
-    #contacto {
-      background: var(--green-deep);
-      padding: 7rem 2rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    #contacto::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8a96e' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-    }
-
-    .contacto-inner { position: relative; z-index: 1; max-width: 650px; margin: 0 auto; }
-
-    .contacto-inner .section-label { color: var(--gold); }
-
-    .contacto-title {
-      font-family: var(--serif);
-      font-size: clamp(2rem, 4vw, 3.5rem);
-      font-weight: 300;
-      color: var(--white);
-      margin-bottom: 1.4rem;
-      line-height: 1.1;
-    }
-
-    .contacto-body {
-      font-family: var(--sans);
-      font-size: 0.9rem;
-      font-weight: 300;
-      line-height: 1.7;
-      color: rgba(255,255,255,0.6);
-      margin-bottom: 2.5rem;
-    }
-
-    .contact-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      text-align: left;
-    }
-
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-
-    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
-
-    .form-group label {
-      font-family: var(--sans);
-      font-size: 0.65rem;
-      font-weight: 400;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.4);
-    }
-
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
-      font-family: var(--sans);
-      font-size: 0.88rem;
-      font-weight: 300;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.15);
-      color: var(--white);
-      padding: 0.85rem 1rem;
-      outline: none;
-      transition: border-color 0.25s;
-      width: 100%;
-    }
-
-    .form-group input::placeholder,
-    .form-group textarea::placeholder {
-      color: rgba(255,255,255,0.2);
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus,
-    .form-group select:focus {
-      border-color: var(--gold);
-    }
-
-    .form-group select option { background: var(--green-deep); }
-
-    .form-group textarea { resize: vertical; min-height: 110px; }
-
-    .btn-submit {
-      font-family: var(--sans);
-      font-size: 0.75rem;
-      font-weight: 400;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      padding: 1rem 2.5rem;
-      background: var(--gold);
-      color: var(--green-deep);
-      border: none;
-      cursor: pointer;
-      transition: all 0.3s;
-      align-self: flex-start;
-      margin-top: 0.5rem;
-    }
-
-    .btn-submit:hover {
-      background: var(--white);
-      transform: translateY(-2px);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.3);
-    }
-
-    /* ─── FOOTER ─────────────────────────────────────────────── */
-    footer {
-      background: #111a14;
-      padding: 2.5rem 2.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .footer-logo {
-      font-family: var(--serif);
-      font-size: 1.1rem;
-      font-weight: 400;
-      color: var(--gold);
-    }
-
-    .footer-text {
-      font-family: var(--sans);
-      font-size: 0.7rem;
-      font-weight: 300;
-      color: rgba(255,255,255,0.3);
-      letter-spacing: 0.1em;
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 1.5rem;
-      list-style: none;
-    }
-
-    .footer-links a {
-      font-family: var(--sans);
-      font-size: 0.65rem;
-      font-weight: 300;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.35);
-      transition: color 0.25s;
-    }
-
-    .footer-links a:hover { color: var(--gold); }
-
-    /* ─── MOBILE NAV ─────────────────────────────────────────── */
-    @media (max-width: 900px) {
-      nav { padding: 1rem 1.5rem; }
-      .nav-links, .nav-cta { display: none; }
-      .hamburger { display: flex; }
-
-      .mobile-menu {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: var(--green-deep);
-        z-index: 99;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 2.5rem;
-        opacity: 0;
-        transition: opacity 0.3s;
-      }
-
-      .mobile-menu.open {
-        display: flex;
-        opacity: 1;
-      }
-
-      .mobile-menu a {
-        font-family: var(--serif);
-        font-size: 2rem;
-        font-weight: 300;
-        color: var(--white);
-        letter-spacing: 0.05em;
-        transition: color 0.25s;
-      }
-
-      .mobile-menu a:hover { color: var(--gold); }
-
-      .mobile-close {
-        position: absolute;
-        top: 1.5rem;
-        right: 1.5rem;
-        font-size: 1.5rem;
-        color: var(--white);
-        cursor: pointer;
-        opacity: 0.6;
-      }
-    }
-
-    /* ─── RESPONSIVE ─────────────────────────────────────────── */
-    @media (max-width: 1024px) {
-      .pilares-grid { grid-template-columns: 1fr 1fr; }
-      .infra-grid   { grid-template-columns: 1fr 1fr; }
-    }
-
-    @media (max-width: 768px) {
-      section { padding: 5rem 1.5rem; }
-
-      .intro-grid    { grid-template-columns: 1fr; gap: 0; }
-      .intro-stat    { border-right: none; border-bottom: 1px solid rgba(200,169,110,0.2); padding: 2rem; }
-      .intro-stat:last-child { border-bottom: none; }
-
-      .sobre-grid    { grid-template-columns: 1fr; }
-      .sobre-image   { aspect-ratio: 3/2; }
-      .sobre-image-badge { bottom: 1rem; right: 1rem; }
-
-      .pilares-grid  { grid-template-columns: 1fr; }
-      .infra-grid    { grid-template-columns: 1fr; }
-      .valores-grid  { grid-template-columns: 1fr; }
-      .fin-intro     { grid-template-columns: 1fr; gap: 2rem; }
-      .steps-row     { grid-template-columns: 1fr; }
-      .form-row      { grid-template-columns: 1fr; }
-
-      footer { flex-direction: column; align-items: flex-start; }
-    }
-
-    /* ─── NOTIFICATION ─────────────────────────────────────── */
-    .toast {
-      position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      background: var(--green-deep);
-      color: var(--white);
-      padding: 1rem 1.6rem;
-      font-family: var(--sans);
-      font-size: 0.82rem;
-      font-weight: 300;
-      border-left: 3px solid var(--gold);
-      transform: translateY(120%);
-      opacity: 0;
-      transition: all 0.4s var(--ease-out);
-      z-index: 200;
-      max-width: 300px;
-    }
-
-    .toast.show {
-      transform: none;
-      opacity: 1;
+      --bg:#f2f7f4;--bg-alt:#eaf3ed;--white:#ffffff;--green:#1a6b3c;--green-light:#2e9e5b;
+      --green-pale:#cce8d8;--cyan:#00c896;--cyan-dim:rgba(0,200,150,0.12);--cyan-border:rgba(0,200,150,0.35);
+      --blue:#0ea5e9;--text-dark:#0d1f15;--text-mid:#355445;--text-light:#6a8a76;--gold:#c8953a;
+      --border:#d8eade;--border-light:#e6f0ea;
+      --serif:'Syne',sans-serif;--sans:'Outfit',sans-serif;--ease:cubic-bezier(0.22,1,0.36,1);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:var(--sans);background:var(--bg);color:var(--text-dark);overflow-x:hidden}
+    a{text-decoration:none;color:inherit}
+    img{display:block;max-width:100%}
+
+    /* TEXT JUSTIFY */
+    .body-text,.member-bio,.pilar-desc,.infra-body,.valor-text p,.cta-body,.step-body{text-align:justify}
+
+    .grid-bg{background-image:linear-gradient(rgba(0,200,150,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,150,0.06) 1px,transparent 1px);background-size:40px 40px}
+    .reveal{opacity:0;transform:translateY(32px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+    .reveal.visible{opacity:1;transform:none}
+    .d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2.5rem;display:flex;align-items:center;justify-content:space-between;transition:background .4s,box-shadow .4s,backdrop-filter .4s}
+    nav.scrolled{background:rgba(255,255,255,0.88);backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(0,200,150,0.2),0 4px 24px rgba(0,0,0,0.06)}
+    .nav-logo{font-family:var(--serif);font-size:1.25rem;font-weight:700;color:var(--white);letter-spacing:0.02em;transition:color .3s}
+    nav.scrolled .nav-logo{color:var(--green)}
+    .nav-logo span{display:block;font-size:0.52rem;font-weight:400;font-family:var(--sans);letter-spacing:0.22em;text-transform:uppercase;opacity:.65;margin-top:1px}
+    .nav-links{display:flex;gap:2rem;list-style:none}
+    .nav-links a{font-family:var(--sans);font-size:0.72rem;font-weight:400;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.8);transition:color .25s;position:relative}
+    nav.scrolled .nav-links a{color:var(--text-mid)}
+    .nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1.5px;background:var(--cyan);transition:width .3s var(--ease)}
+    .nav-links a:hover{color:var(--cyan)!important}
+    .nav-links a:hover::after{width:100%}
+    .nav-cta{font-family:var(--sans);font-size:0.7rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;padding:.55rem 1.4rem;background:var(--cyan);color:var(--text-dark);clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);transition:all .3s}
+    .nav-cta:hover{background:var(--white);transform:translateY(-1px)}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer}
+    .hamburger span{display:block;width:22px;height:1.5px;background:var(--white);transition:all .3s}
+    nav.scrolled .hamburger span{background:var(--green)}
+
+    /* HERO */
+    #hero{position:relative;height:100svh;min-height:600px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1800&q=80') right center/cover no-repeat;animation:heroPan 25s ease-in-out infinite alternate}
+    @keyframes heroPan{0%{background-position:right center}100%{background-position:left center}}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(160deg,rgba(10,40,22,0.72) 0%,rgba(5,25,14,0.45) 55%,rgba(0,15,8,0.65) 100%)}
+    .hero-scan{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,200,150,0.015) 3px,rgba(0,200,150,0.015) 4px)}
+    .hero-content{position:relative;z-index:2;text-align:center;padding:2rem;max-width:960px}
+    .hero-badge{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--sans);font-size:0.65rem;font-weight:400;letter-spacing:0.28em;text-transform:uppercase;color:var(--cyan);margin-bottom:2rem;border:1px solid rgba(0,200,150,0.3);padding:.4rem 1rem;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);background:rgba(0,200,150,0.08);opacity:0;animation:fadeUp .9s var(--ease) .3s forwards}
+    .badge-dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan);animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.5)}}
+    .hero-title{font-family:var(--serif);font-size:clamp(3.5rem,9vw,8rem);font-weight:800;line-height:.9;color:var(--white);letter-spacing:-0.02em;margin-bottom:1.6rem;opacity:0;animation:fadeUp 1s var(--ease) .5s forwards}
+    .hero-title .accent{color:var(--cyan);position:relative;display:inline-block}
+    .hero-subtitle{font-family:var(--sans);font-size:clamp(.85rem,2vw,1rem);font-weight:300;line-height:1.75;color:rgba(255,255,255,.7);letter-spacing:.05em;max-width:580px;margin:0 auto 2.8rem;opacity:0;animation:fadeUp 1s var(--ease) .7s forwards;text-align:justify}
+    .hero-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;opacity:0;animation:fadeUp 1s var(--ease) .9s forwards}
+    .btn-primary{font-family:var(--sans);font-size:0.73rem;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;padding:.9rem 2rem;background:var(--cyan);color:var(--text-dark);clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);border:none;cursor:pointer;transition:all .3s}
+    .btn-primary:hover{background:var(--white);transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,200,150,0.3)}
+    .btn-outline{font-family:var(--sans);font-size:0.73rem;font-weight:400;letter-spacing:0.15em;text-transform:uppercase;padding:.9rem 2rem;background:transparent;color:var(--white);border:1px solid rgba(255,255,255,0.35);cursor:pointer;transition:all .3s}
+    .btn-outline:hover{border-color:var(--cyan);color:var(--cyan);transform:translateY(-3px)}
+    .hero-scroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;color:rgba(255,255,255,.4);font-family:var(--sans);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;opacity:0;animation:fadeUp 1s var(--ease) 1.2s forwards}
+    .scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--cyan),transparent);animation:scrollAnim 2s ease-in-out infinite}
+    @keyframes scrollAnim{0%,100%{transform:scaleY(1);opacity:.8}50%{transform:scaleY(.4);opacity:.2}}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+    /* STATS */
+    #stats{background:var(--white);border-top:1px solid var(--border-light);border-bottom:1px solid var(--border-light)}
+    .stats-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
+    .stat-item{padding:2.5rem 2rem;text-align:center;border-right:1px solid var(--border-light);position:relative;overflow:hidden}
+    .stat-item:last-child{border-right:none}
+    .stat-item::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--cyan);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+    .stat-item:hover::before{transform:scaleX(1)}
+    .stat-num{font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);font-weight:700;color:var(--green);line-height:1;margin-bottom:.4rem}
+    .stat-num .unit{font-size:.5em;color:var(--cyan);vertical-align:super}
+    .stat-label{font-family:var(--sans);font-size:.68rem;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--text-light)}
+
+    /* SECTIONS */
+    section{padding:7rem 2rem}
+    .inner{max-width:1200px;margin:0 auto}
+    .label{font-family:var(--sans);font-size:.65rem;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:var(--cyan);margin-bottom:1rem;display:flex;align-items:center;gap:.6rem}
+    .label::before{content:'';display:block;width:20px;height:1.5px;background:var(--cyan);flex-shrink:0}
+    .h2{font-family:var(--serif);font-size:clamp(2rem,4vw,3.2rem);font-weight:700;line-height:1.05;color:var(--text-dark);letter-spacing:-0.01em;margin-bottom:1.5rem}
+    .h2 em{font-style:normal;color:var(--green)}
+    .h2 .tech{color:var(--cyan)}
+    .body-text{font-family:var(--sans);font-size:.95rem;font-weight:300;line-height:1.85;color:var(--text-mid)}
+    .rule{width:50px;height:2px;background:var(--cyan);margin:1.5rem 0}
+
+    /* SOBRE */
+    #sobre{background:var(--white)}
+    .sobre-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+    .sobre-visual{position:relative;aspect-ratio:4/5;overflow:hidden}
+    .sobre-visual img{width:100%;height:100%;object-fit:cover;transition:transform 8s var(--ease)}
+    .sobre-visual:hover img{transform:scale(1.04)}
+    .sobre-tech-badge{position:absolute;bottom:1.5rem;right:1.5rem;background:var(--white);border:1px solid var(--cyan-border);padding:1rem 1.2rem;box-shadow:0 0 20px rgba(0,200,150,0.15)}
+    .badge-line{font-family:var(--sans);font-size:.6rem;font-weight:300;letter-spacing:.2em;text-transform:uppercase;color:var(--text-light);margin-bottom:.3rem}
+    .badge-value{font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--green);line-height:1}
+    .badge-value span{color:var(--cyan);font-size:.7em}
+    .tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.8rem}
+    .tag{font-family:var(--sans);font-size:.62rem;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--green);border:1px solid var(--green-pale);padding:.4rem .9rem;background:rgba(26,107,60,0.04);transition:all .25s;min-width:140px;text-align:center}
+    .tag:hover{background:var(--cyan-dim);border-color:var(--cyan);color:var(--green)}
+
+    /* PILARES */
+    #pilares{background:var(--bg);position:relative}
+    .pilares-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border-light);margin-top:3.5rem;border:1px solid var(--border-light)}
+    .pilar{background:var(--white);padding:2.5rem 1.8rem;position:relative;overflow:hidden;transition:transform .4s var(--ease),box-shadow .4s;cursor:default}
+    .pilar::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--cyan-dim),transparent);opacity:0;transition:opacity .4s}
+    .pilar:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,200,150,0.12)}
+    .pilar:hover::after{opacity:1}
+    .pilar-num{font-family:var(--serif);font-size:4rem;font-weight:800;color:rgba(26,107,60,.07);line-height:1;margin-bottom:1.2rem;transition:color .3s}
+    .pilar:hover .pilar-num{color:var(--cyan-dim)}
+    .pilar-icon{font-size:1.6rem;margin-bottom:.8rem}
+    .pilar-name{font-family:var(--serif);font-size:1.2rem;font-weight:700;color:var(--text-dark);margin-bottom:.3rem;line-height:1.2}
+    .pilar-sub{font-family:var(--sans);font-size:.62rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan);margin-bottom:1rem}
+    .pilar-desc{font-family:var(--sans);font-size:.82rem;font-weight:300;line-height:1.7;color:var(--text-light);margin-bottom:1.2rem}
+    .pilar-list{list-style:none}
+    .pilar-list li{font-family:var(--sans);font-size:.78rem;font-weight:300;color:var(--text-mid);padding:.4rem 0;border-bottom:1px solid var(--border-light);display:flex;align-items:flex-start;gap:.6rem}
+    .pilar-list li::before{content:'›';color:var(--cyan);flex-shrink:0;font-size:1rem;line-height:1.2}
+
+    /* TECH */
+    #tech{padding:5rem 2rem;position:relative;overflow:hidden}
+    .tech-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1448375240586-882707db888b?w=1800&q=80') center/cover no-repeat}
+    .tech-overlay{position:absolute;inset:0;background:linear-gradient(160deg,rgba(10,40,22,0.92) 0%,rgba(5,50,25,0.88) 100%)}
+    .tech-grid-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(0,200,150,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,150,.08) 1px,transparent 1px);background-size:30px 30px}
+    .tech-inner{max-width:1200px;margin:0 auto;position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+    .tech-content .label{color:var(--cyan)}
+    .tech-content .h2{color:var(--white)}
+    .tech-content .h2 em{color:var(--cyan)}
+    .tech-content .body-text{color:rgba(255,255,255,.65)}
+    .tech-cards{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+    .tech-card{background:rgba(255,255,255,.05);border:1px solid rgba(0,200,150,.2);padding:1.4rem;transition:background .3s,border-color .3s,box-shadow .3s}
+    .tech-card:hover{background:rgba(0,200,150,.08);border-color:rgba(0,200,150,.5);box-shadow:0 0 20px rgba(0,200,150,.12)}
+    .tech-card-icon{font-size:1.4rem;margin-bottom:.6rem}
+    .tech-card-title{font-family:var(--serif);font-size:.95rem;font-weight:700;color:var(--cyan);margin-bottom:.4rem}
+    .tech-card-body{font-family:var(--sans);font-size:.78rem;font-weight:300;line-height:1.6;color:rgba(255,255,255,.5);text-align:justify}
+
+    /* COMUNIDADE */
+    #comunidade{background:var(--white)}
+    .comunidade-header{text-align:center;max-width:600px;margin:0 auto 4rem}
+    .members-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;background:var(--border-light);border:1px solid var(--border-light)}
+    .member-card{background:var(--white);overflow:hidden;display:flex;flex-direction:column;transition:transform .4s var(--ease),box-shadow .4s;position:relative}
+    .member-card:hover{transform:translateY(-5px);box-shadow:0 20px 50px rgba(0,200,150,0.12);z-index:1}
+    .member-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--cyan);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease)}
+    .member-card:hover::before{transform:scaleX(1)}
+    .member-avatar{width:100%;aspect-ratio:1/1;object-fit:cover;object-position:top;filter:saturate(.9);transition:filter .4s}
+    .member-card:hover .member-avatar{filter:saturate(1.1)}
+    .member-info{padding:1.4rem 1.2rem;flex:1}
+    .member-name{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--text-dark);margin-bottom:.15rem}
+    .member-role{font-family:var(--sans);font-size:.58rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);margin-bottom:.6rem}
+    .member-bio{font-family:var(--sans);font-size:.76rem;font-weight:300;line-height:1.65;color:var(--text-light)}
+    .member-pilar{display:inline-block;margin-top:.7rem;font-family:var(--sans);font-size:.55rem;font-weight:400;letter-spacing:.12em;text-transform:uppercase;color:var(--green);border:1px solid var(--green-pale);padding:.25rem .6rem;background:rgba(26,107,60,.04)}
+
+    /* INFRA */
+    #infraestrutura{background:var(--bg);position:relative}
+    .infra-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border-light);border:1px solid var(--border-light);margin-top:3.5rem}
+    .infra-card{background:var(--white);padding:2rem 1.8rem;transition:all .35s;position:relative;overflow:hidden}
+    .infra-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--cyan);transform:scaleY(0);transform-origin:top;transition:transform .4s var(--ease)}
+    .infra-card:hover::before{transform:scaleY(1)}
+    .infra-card:hover{background:var(--bg)}
+    .infra-icon{font-size:1.5rem;margin-bottom:.9rem}
+    .infra-title{font-family:var(--serif);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:.7rem}
+    .infra-body{font-family:var(--sans);font-size:.8rem;font-weight:300;line-height:1.7;color:var(--text-light)}
+
+    /* VALORES */
+    #valores{background:var(--bg-alt);padding:5rem 2rem}
+    .valores-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:3rem}
+    .valor{display:flex;gap:1rem;align-items:flex-start;padding:1.4rem;background:var(--white);border-left:2px solid transparent;transition:all .3s}
+    .valor:hover{border-left-color:var(--cyan);box-shadow:0 4px 20px rgba(0,200,150,0.08)}
+    .valor-letter{font-family:var(--serif);font-size:2rem;font-weight:800;color:var(--green-pale);line-height:1;flex-shrink:0;transition:color .3s}
+    .valor:hover .valor-letter{color:var(--cyan)}
+    .valor-text strong{display:block;font-family:var(--sans);font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dark);margin-bottom:.3rem}
+    .valor-text p{font-family:var(--sans);font-size:.78rem;font-weight:300;line-height:1.6;color:var(--text-light)}
+
+    /* CONTACTO */
+    #contacto{padding:7rem 2rem;position:relative;overflow:hidden}
+    .contacto-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?w=1800&q=80') center/cover no-repeat}
+    .contacto-overlay{position:absolute;inset:0;background:linear-gradient(160deg,rgba(10,40,22,0.92) 0%,rgba(5,50,25,0.88) 100%)}
+    .contacto-grid-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(0,200,150,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,150,.08) 1px,transparent 1px);background-size:35px 35px}
+    .cta-inner{max-width:680px;margin:0 auto;text-align:center;position:relative;z-index:1}
+    .cta-inner .label{color:var(--cyan);justify-content:center}
+    .cta-inner .label::before{display:none}
+    .cta-title{font-family:var(--serif);font-size:clamp(2rem,4vw,3.2rem);font-weight:700;color:var(--white);line-height:1.05;margin-bottom:1.2rem;letter-spacing:-.01em}
+    .cta-title em{font-style:normal;color:var(--cyan)}
+    .cta-body{font-family:var(--sans);font-size:.9rem;font-weight:300;line-height:1.7;color:rgba(255,255,255,.6);margin-bottom:2.5rem}
+    .contact-info{margin-bottom:2rem;color:rgba(255,255,255,.5);font-family:var(--sans);font-size:.82rem;font-weight:300;line-height:1.8}
+    .contact-info strong{color:rgba(255,255,255,.8);font-weight:500}
+    .contact-info a{color:var(--cyan);transition:opacity .3s}
+    .contact-info a:hover{opacity:.7}
+    .form{display:flex;flex-direction:column;gap:.9rem;text-align:left}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+    .form-group{display:flex;flex-direction:column;gap:.35rem}
+    .form-group label{font-family:var(--sans);font-size:.62rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+    .form-group input,.form-group textarea,.form-group select{font-family:var(--sans);font-size:.88rem;font-weight:300;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);color:var(--white);padding:.8rem 1rem;outline:none;transition:border-color .25s,box-shadow .25s;width:100%}
+    .form-group input::placeholder,.form-group textarea::placeholder{color:rgba(255,255,255,.2)}
+    .form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,200,150,.1)}
+    .form-group select option{background:var(--green)}
+    .form-group textarea{resize:vertical;min-height:100px}
+    .btn-send{font-family:var(--sans);font-size:.73rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;padding:.95rem 2.2rem;background:var(--cyan);color:var(--text-dark);clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);border:none;cursor:pointer;transition:all .3s;align-self:flex-start;margin-top:.4rem}
+    .btn-send:hover{background:var(--white);transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,0,0,.25)}
+
+    /* FOOTER */
+    footer{background:#061a0d;padding:2.2rem 2.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .footer-logo{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--cyan)}
+    .footer-copy{font-family:var(--sans);font-size:.68rem;font-weight:300;color:rgba(255,255,255,.25);letter-spacing:.08em}
+    .footer-links{display:flex;gap:1.5rem;list-style:none}
+    .footer-links a{font-family:var(--sans);font-size:.63rem;font-weight:300;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.3);transition:color .25s}
+    .footer-links a:hover{color:var(--cyan)}
+
+    /* TOAST */
+    .toast{position:fixed;bottom:2rem;right:2rem;z-index:200;background:var(--white);color:var(--text-dark);padding:1rem 1.5rem;border:1px solid var(--cyan);box-shadow:0 8px 30px rgba(0,200,150,0.2);font-family:var(--sans);font-size:.82rem;font-weight:300;transform:translateY(120%);opacity:0;transition:all .4s var(--ease);max-width:280px}
+    .toast.show{transform:none;opacity:1}
+
+    /* MOBILE NAV */
+    .mobile-menu{display:none;position:fixed;inset:0;background:var(--green);z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem;opacity:0;transition:opacity .3s}
+    .mobile-menu.open{display:flex;opacity:1}
+    .mobile-menu a{font-family:var(--serif);font-size:1.8rem;font-weight:700;color:var(--white);transition:color .25s}
+    .mobile-menu a:hover{color:var(--cyan)}
+    .mobile-close{position:absolute;top:1.5rem;right:1.5rem;font-size:1.4rem;color:rgba(255,255,255,.5);cursor:pointer}
+
+    /* RESPONSIVE */
+    @media(max-width:1024px){
+      .pilares-grid{grid-template-columns:1fr 1fr}
+      .infra-grid{grid-template-columns:1fr 1fr}
+      .tech-inner{grid-template-columns:1fr;gap:2.5rem}
+      .members-grid{grid-template-columns:repeat(3,1fr)}
+    }
+    @media(max-width:900px){
+      nav{padding:1rem 1.5rem}
+      .nav-links,.nav-cta{display:none}
+      .hamburger{display:flex}
+    }
+    @media(max-width:768px){
+      section{padding:5rem 1.5rem}
+      .stats-inner{grid-template-columns:1fr 1fr}
+      .sobre-grid{grid-template-columns:1fr}
+      .sobre-visual{aspect-ratio:3/2}
+      .pilares-grid{grid-template-columns:1fr}
+      .members-grid{grid-template-columns:1fr 1fr}
+      .infra-grid{grid-template-columns:1fr}
+      .valores-grid{grid-template-columns:1fr}
+      .form-row{grid-template-columns:1fr}
+      .tech-cards{grid-template-columns:1fr}
+      footer{flex-direction:column;align-items:flex-start}
+    }
+    @media(max-width:500px){
+      .members-grid{grid-template-columns:1fr}
     }
   </style>
 </head>
 <body>
 
-<!-- ─── MOBILE MENU ──────────────────────────────────────── -->
-<div class="mobile-menu" id="mobileMenu" role="dialog">
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
   <span class="mobile-close" id="mobileClose">✕</span>
-  <a href="#sobre"         onclick="closeMobile()">O Projeto</a>
-  <a href="#pilares"       onclick="closeMobile()">Os Pilares</a>
+  <a href="#sobre" onclick="closeMobile()">O Projeto</a>
+  <a href="#pilares" onclick="closeMobile()">Os Pilares</a>
+  <a href="#comunidade" onclick="closeMobile()">Comunidade</a>
   <a href="#infraestrutura" onclick="closeMobile()">Infraestrutura</a>
-  <a href="#valores"       onclick="closeMobile()">Valores</a>
-  <a href="#contacto"      onclick="closeMobile()">Contacto</a>
+  <a href="#contacto" onclick="closeMobile()">Contacto</a>
 </div>
 
-<!-- ─── NAV ─────────────────────────────────────────────── -->
+<!-- NAV -->
 <nav id="navbar">
-  <a href="#hero" class="nav-logo">
-    Quinta Avenida
-    <span>Comunidade Sustentável Sénior</span>
-  </a>
-
+  <a href="#hero" class="nav-logo">Quinta Avenida<span>Comunidade Sustentável Sénior</span></a>
   <ul class="nav-links">
     <li><a href="#sobre">O Projeto</a></li>
     <li><a href="#pilares">Os Pilares</a></li>
+    <li><a href="#comunidade">Comunidade</a></li>
     <li><a href="#infraestrutura">Infraestrutura</a></li>
     <li><a href="#valores">Valores</a></li>
-    <li><a href="#financiamento">Financiamento</a></li>
   </ul>
-
   <a href="#contacto" class="nav-cta">Participar</a>
-
-  <div class="hamburger" id="hamburger" onclick="openMobile()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </div>
+  <div class="hamburger" onclick="openMobile()"><span></span><span></span><span></span></div>
 </nav>
 
-<!-- ─── HERO ─────────────────────────────────────────────── -->
+<!-- HERO -->
 <section id="hero">
-  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-bg"></div>
   <div class="hero-overlay"></div>
-
+  <div class="hero-scan"></div>
   <div class="hero-content">
-    <p class="hero-eyebrow">Portugal · Comunidade · Natureza · Longevidade</p>
-
-    <h1 class="hero-title">
-      Quinta<br/>
-      <em>Avenida</em>
-    </h1>
-
-    <p class="hero-subtitle">
-      Um ecossistema rural autossustentável e intergeracional,<br/>
-      onde o envelhecimento ativo se torna uma arte de viver.
-    </p>
-
+    <div class="hero-badge"><div class="badge-dot"></div>Portugal · Natureza · Tecnologia · Longevidade</div>
+    <h1 class="hero-title">Quinta<br/><span class="accent">Avenida</span></h1>
+    <p class="hero-subtitle">Onde a serenidade do campo encontra a inteligência da tecnologia. Um novo modelo de envelhecimento ativo e em comunidade.</p>
     <div class="hero-actions">
       <a href="#sobre" class="btn-primary">Conhecer o Projeto</a>
       <a href="#contacto" class="btn-outline">Fazer Parte</a>
     </div>
   </div>
-
-  <div class="hero-scroll">
-    <div class="scroll-line"></div>
-    Explorar
-  </div>
+  <div class="hero-scroll"><div class="scroll-line"></div>Explorar</div>
 </section>
 
-<!-- ─── INTRO STATS ───────────────────────────────────────── -->
-<div id="intro">
-  <div class="intro-grid">
-    <div class="intro-stat reveal">
-      <div class="intro-stat-number">15–20</div>
-      <div class="intro-stat-label">Habitações Ecológicas</div>
-    </div>
-    <div class="intro-stat reveal reveal-delay-1">
-      <div class="intro-stat-number">4</div>
-      <div class="intro-stat-label">Pilares Estratégicos</div>
-    </div>
-    <div class="intro-stat reveal reveal-delay-2">
-      <div class="intro-stat-number">60+</div>
-      <div class="intro-stat-label">Anos · Comunidade Fundadora</div>
-    </div>
+<!-- STATS -->
+<div id="stats">
+  <div class="stats-inner">
+    <div class="stat-item reveal"><div class="stat-num">15<span class="unit">–</span>20</div><div class="stat-label">Habitações Ecológicas</div></div>
+    <div class="stat-item reveal d1"><div class="stat-num">4</div><div class="stat-label">Pilares Estratégicos</div></div>
+    <div class="stat-item reveal d2"><div class="stat-num">60<span class="unit">+</span></div><div class="stat-label">Anos · Comunidade Fundadora</div></div>
+    <div class="stat-item reveal d3"><div class="stat-num">0<span class="unit">km</span></div><div class="stat-label">Gastronomia Local</div></div>
   </div>
 </div>
 
-<!-- ─── SOBRE ─────────────────────────────────────────────── -->
+<!-- SOBRE -->
 <section id="sobre">
-  <div class="section-inner">
+  <div class="inner">
     <div class="sobre-grid">
-      <div class="sobre-image reveal">
-        <img
-          src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=80"
-          alt="Quinta rural com vegetação exuberante"
-          loading="lazy"
-        />
-        <div class="sobre-image-badge">
-          <div class="badge-text">Envelhecimento<br/>Ativo</div>
-          <div class="badge-sub">em meio rural</div>
-        </div>
+      <div class="sobre-visual reveal">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=80" alt="Quinta rural sustentável" loading="lazy"/>
+        <div class="sobre-tech-badge"><div class="badge-line">Envelhecimento Ativo</div><div class="badge-value">+60 <span>anos</span></div></div>
       </div>
-
-      <div class="sobre-content">
-        <p class="section-label reveal">O Projeto</p>
-        <h2 class="section-title reveal reveal-delay-1">
-          Viver mais, <em>viver melhor</em>,<br/>
-          em comunidade
-        </h2>
-        <div class="divider reveal reveal-delay-2"></div>
-
-        <p class="section-body reveal reveal-delay-2">
-          <strong>Visão —</strong> Criar um ecossistema rural autossustentável e intergeracional,
-          focado no envelhecimento ativo dos seus fundadores, que se afirme como modelo
-          de bem-estar integrado pela complementaridade de serviços de apoio e de assistência,
-          abertos a terceiros e à comunidade local.
-        </p>
-
-        <p class="section-body reveal reveal-delay-3" style="margin-top:1.2rem;">
-          <strong>Missão —</strong> Desenvolver uma quinta produtiva com habitação e serviços
-          partilhados que contribua para a sustentabilidade financeira do núcleo fundador —
-          séniores com mais de 60 anos — oferecendo uma experiência de envelhecimento ativo
-          em área rural com elevados padrões de conforto e assistência.
-        </p>
-
-        <div class="tag-row reveal reveal-delay-4">
-          <span class="tag">Cooperativa de Habitação</span>
-          <span class="tag">Agroturismo</span>
-          <span class="tag">Saúde Digital</span>
-          <span class="tag">Apoio Comunitário</span>
-          <span class="tag">Sustentabilidade</span>
-          <span class="tag">Bem-Estar</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ─── PILARES ───────────────────────────────────────────── -->
-<section id="pilares">
-  <div class="section-inner">
-    <div class="pilares-header">
-      <p class="section-label reveal">Quatro Pilares Estratégicos</p>
-      <h2 class="section-title reveal reveal-delay-1">
-        O alicerce de uma<br/><em>comunidade equilibrada</em>
-      </h2>
-    </div>
-
-    <div class="pilares-grid">
-
-      <div class="pilar-card reveal">
-        <div class="pilar-number">01</div>
-        <div class="pilar-icon">🏘️</div>
-        <h3 class="pilar-title">Núcleo Comunitário</h3>
-        <p class="pilar-subtitle">Desenvolvimento &amp; Governança</p>
-        <p class="pilar-body">
-          Define as regras, a coesão do grupo fundador e a sustentabilidade legal e financeira
-          da comunidade. Estrutura legal, parceria e gestão partilhada.
-        </p>
-        <ul class="pilar-items">
-          <li>Cooperativa de Habitação (CRL)</li>
-          <li>15–20 moradias ecológicas modulares</li>
-          <li>Modelo de decisão democrático</li>
-          <li>Sustentabilidade financeira recorrente</li>
-        </ul>
-      </div>
-
-      <div class="pilar-card reveal reveal-delay-1">
-        <div class="pilar-number">02</div>
-        <div class="pilar-icon">🌿</div>
-        <h3 class="pilar-title">Alojamento &amp; Agroturismo</h3>
-        <p class="pilar-subtitle">Geração de Receita</p>
-        <p class="pilar-body">
-          O motor económico do projeto, focado na experiência "Farm-to-Table", na natureza
-          e num turismo de qualidade boutique.
-        </p>
-        <ul class="pilar-items">
-          <li>6 suites de alojamento turístico</li>
-          <li>Cozinha profissional · conceito km 0</li>
-          <li>Atividades de experiência na quinta</li>
-          <li>Segmento médio-alto, autêntico</li>
-        </ul>
-      </div>
-
-      <div class="pilar-card reveal reveal-delay-2">
-        <div class="pilar-number">03</div>
-        <div class="pilar-icon">🧘</div>
-        <h3 class="pilar-title">Saúde &amp; Bem-Estar</h3>
-        <p class="pilar-subtitle">Diferenciação &amp; Qualidade de Vida</p>
-        <p class="pilar-body">
-          A diferenciação do projeto, capitalizando a crescente procura por saúde mental,
-          natureza e envelhecimento saudável com tecnologia de ponta.
-        </p>
-        <ul class="pilar-items">
-          <li>Ginásio adaptado e Sala de Yoga</li>
-          <li>Telemedicina e saúde digital</li>
-          <li>Pulseiras inteligentes com IA</li>
-          <li>Retiros de Mindfulness e Nutrição</li>
-        </ul>
-      </div>
-
-      <div class="pilar-card reveal reveal-delay-3">
-        <div class="pilar-number">04</div>
-        <div class="pilar-icon">🤝</div>
-        <h3 class="pilar-title">Apoio Domiciliário</h3>
-        <p class="pilar-subtitle">Solidariedade &amp; Serviço</p>
-        <p class="pilar-body">
-          O pilar de serviço social, crucial para a ligação com a comunidade local e
-          a sustentabilidade social do projeto.
-        </p>
-        <ul class="pilar-items">
-          <li>Serviços de apoio na área local</li>
-          <li>Abertura de espaços à comunidade</li>
-          <li>Centro de Dia Ligeiro (Day-Care)</li>
-          <li>Parcerias locais e impacto social</li>
-        </ul>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ─── INFRAESTRUTURA ────────────────────────────────────── -->
-<section id="infraestrutura">
-  <div class="section-inner">
-    <p class="section-label reveal">Componentes Físicas</p>
-    <h2 class="section-title reveal reveal-delay-1">
-      Infraestrutura pensada<br/>para a vida em <em>comunidade</em>
-    </h2>
-    <p class="section-body reveal reveal-delay-2">
-      A infraestrutura da Quinta foi planeada para suportar a multifuncionalidade do projeto —
-      desde a habitação privada à área de turismo, saúde e produção agrícola.
-    </p>
-
-    <div class="infra-grid">
-      <div class="infra-card reveal">
-        <div class="infra-icon">🏛️</div>
-        <h3 class="infra-title">Edifício Central</h3>
-        <p class="infra-body">
-          O coração funcional e social do projeto. 6 suites de alojamento, cozinha profissional,
-          sala espaçosa polivalente, ginásio equipado, piscina partilhada, sala de tratamentos
-          médicos e lavandaria industrializada.
-        </p>
-      </div>
-
-      <div class="infra-card reveal reveal-delay-1">
-        <div class="infra-icon">🏡</div>
-        <h3 class="infra-title">Núcleo Residencial</h3>
-        <p class="infra-body">
-          15–20 moradias independentes com design ecológico em madeira/CLT, eficiência energética A+,
-          totalmente adaptadas à mobilidade sénior. Piso térreo, sem barreiras arquitetónicas.
-        </p>
-      </div>
-
-      <div class="infra-card reveal reveal-delay-2">
-        <div class="infra-icon">☀️</div>
-        <h3 class="infra-title">Autossuficiência Energética</h3>
-        <p class="infra-body">
-          Painéis solares fotovoltaicos e baterias comunitárias para autossuficiência. Domótica,
-          controlo de acessos centralizado e rede Wi-Fi robusta para telemedicina.
-        </p>
-      </div>
-
-      <div class="infra-card reveal reveal-delay-1">
-        <div class="infra-icon">🥬</div>
-        <h3 class="infra-title">Horta Biológica</h3>
-        <p class="infra-body">
-          Zona agrícola certificada para consumo próprio, abastecimento da restauração e
-          oferta à comunidade local. Conceito km 0 integrado na gastronomia e bem-estar.
-        </p>
-      </div>
-
-      <div class="infra-card reveal reveal-delay-2">
-        <div class="infra-icon">🚲</div>
-        <h3 class="infra-title">Mobilidade Sustentável</h3>
-        <p class="infra-body">
-          Sistema de mobilidade interna com bicicletas elétricas e buggys partilhados, adaptado
-          a residentes sénior. Frota de carros partilhados para reduzir a pegada carbónica.
-        </p>
-      </div>
-
-      <div class="infra-card reveal reveal-delay-3">
-        <div class="infra-icon">💻</div>
-        <h3 class="infra-title">Sede Operacional</h3>
-        <p class="infra-body">
-          Escritório de gestão para coordenação administrativa do turismo, gestão de retiros e
-          logística do apoio domiciliário — contratos, agendamentos e rotas.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ─── VALORES ───────────────────────────────────────────── -->
-<section id="valores">
-  <div class="section-inner">
-    <p class="section-label reveal">Os Nossos Princípios</p>
-    <h2 class="section-title reveal reveal-delay-1">
-      Os valores que nos <em>unem</em>
-    </h2>
-
-    <div class="valores-grid">
-      <div class="valor-item reveal">
-        <div class="valor-letter">A</div>
-        <div class="valor-text">
-          <strong>Autoadministração</strong>
-          <p>Administrados pela própria comunidade, com participação ativa nas decisões.</p>
-        </div>
-      </div>
-      <div class="valor-item reveal reveal-delay-1">
-        <div class="valor-letter">S</div>
-        <div class="valor-text">
-          <strong>Solidariedade</strong>
-          <p>Colaboração e apoio mútuo entre membros para fortalecer os laços comunitários.</p>
-        </div>
-      </div>
-      <div class="valor-item reveal reveal-delay-2">
-        <div class="valor-letter">I</div>
-        <div class="valor-text">
-          <strong>Intergeracionalidade</strong>
-          <p>Valorizamos a diversidade de idades e a troca de experiências entre gerações.</p>
-        </div>
-      </div>
-      <div class="valor-item reveal">
-        <div class="valor-letter">E</div>
-        <div class="valor-text">
-          <strong>Ecologia</strong>
-          <p>Compromisso com a preservação da natureza e autossuficiência através de renováveis.</p>
-        </div>
-      </div>
-      <div class="valor-item reveal reveal-delay-1">
-        <div class="valor-letter">C</div>
-        <div class="valor-text">
-          <strong>Cuidado Compassivo</strong>
-          <p>Facilitar cuidados para quem precisa, promovendo bem-estar físico e mental.</p>
-        </div>
-      </div>
-      <div class="valor-item reveal reveal-delay-2">
-        <div class="valor-letter">R</div>
-        <div class="valor-text">
-          <strong>Relações Positivas</strong>
-          <p>Incentivamos relações harmoniosas, atuando como mediadores em conflitos.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ─── FINANCIAMENTO ─────────────────────────────────────── -->
-<section id="financiamento">
-  <div class="section-inner">
-    <div class="fin-intro">
       <div>
-        <p class="section-label reveal">Linhas de Financiamento</p>
-        <h2 class="section-title reveal reveal-delay-1">
-          Um projeto com<br/><em>suporte institucional</em>
-        </h2>
-        <div class="divider reveal reveal-delay-2"></div>
-        <p class="section-body reveal reveal-delay-2">
-          A Quinta Avenida tem acesso a múltiplas linhas de financiamento público e
-          privado, dada a sua forte componente social, tecnológica e ambiental.
-        </p>
-      </div>
-
-      <ul class="fin-list">
-        <li class="reveal">
-          <div class="fin-bullet"></div>
-          <div class="fin-list-text">
-            <strong>PRR — Plano de Recuperação e Resiliência</strong>
-            <span>Habitação Acessível, Envelhecimento Ativo e Saúde Digital</span>
-          </div>
-        </li>
-        <li class="reveal reveal-delay-1">
-          <div class="fin-bullet"></div>
-          <div class="fin-list-text">
-            <strong>Portugal 2030</strong>
-            <span>Inclusão e Inovação Social, Saúde Digital e Desenvolvimento Regional</span>
-          </div>
-        </li>
-        <li class="reveal reveal-delay-2">
-          <div class="fin-bullet"></div>
-          <div class="fin-list-text">
-            <strong>Fundo Ambiental / ADENE</strong>
-            <span>Eficiência energética, mobilidade elétrica e construção sustentável</span>
-          </div>
-        </li>
-        <li class="reveal reveal-delay-3">
-          <div class="fin-bullet"></div>
-          <div class="fin-list-text">
-            <strong>Banco Português de Fomento</strong>
-            <span>Linhas de crédito para cooperativas de habitação e empreendedorismo social</span>
-          </div>
-        </li>
-        <li class="reveal reveal-delay-4">
-          <div class="fin-bullet"></div>
-          <div class="fin-list-text">
-            <strong>LEADER / Desenvolvimento Rural</strong>
-            <span>Integração comunitária, agricultura biológica e impacto económico rural</span>
-          </div>
-        </li>
-        <li class="reveal">
-          <div class="fin-bullet"></div>
-          <div class="fin-list-text">
-            <strong>Turismo de Portugal</strong>
-            <span>Apoio a projetos de turismo rural e agroturismo de qualidade</span>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ─── PRÓXIMOS PASSOS ───────────────────────────────────── -->
-<section id="proximos">
-  <div class="section-inner">
-    <p class="section-label reveal">O Caminho à Frente</p>
-    <h2 class="section-title reveal reveal-delay-1">
-      Próximos <em>passos prioritários</em>
-    </h2>
-
-    <div class="steps-row">
-      <div class="step-item reveal">
-        <div class="step-num">01</div>
-        <h3 class="step-title">Estudo de Viabilidade</h3>
-        <p class="step-body">
-          Modelar as receitas de turismo, arrendamento e apoio domiciliário, e os custos
-          de construção e operação, para garantir o financiamento e a sustentabilidade do projeto.
-        </p>
-      </div>
-      <div class="step-item reveal reveal-delay-1">
-        <div class="step-num">02</div>
-        <h3 class="step-title">Mapeamento de Competências</h3>
-        <p class="step-body">
-          Formalizar quais dos membros fundadores se responsabilizam por cada um dos quatro pilares:
-          Gestão Comunitária/Legal, Turismo, Bem-Estar/Saúde e Apoio Social.
-        </p>
-      </div>
-      <div class="step-item reveal reveal-delay-2">
-        <div class="step-num">03</div>
-        <h3 class="step-title">Formalização da Parceria</h3>
-        <p class="step-body">
-          Iniciar a constituição da Cooperativa de Habitação (CRL) e o acordo de cedência de
-          terreno com o Município. Definir estrutura legal e modelo de governança.
-        </p>
+        <p class="label reveal">O Projeto</p>
+        <h2 class="h2 reveal d1">Viver mais, viver melhor,<br/>em <em>comunidade</em></h2>
+        <div class="rule reveal d2"></div>
+        <p class="body-text reveal d2"><strong>Visão —</strong> Criar um ecossistema rural autossustentável e intergeracional, focado no envelhecimento ativo dos seus fundadores, afirmando-se como modelo de bem-estar integrado com serviços de apoio abertos a terceiros e à comunidade local.</p>
+        <p class="body-text reveal d3" style="margin-top:1rem"><strong>Missão —</strong> Desenvolver uma quinta produtiva com habitação e serviços partilhados, oferecendo uma experiência de envelhecimento ativo em área rural com elevados padrões de conforto, assistência e tecnologia de ponta.</p>
+        <div class="tags reveal d4">
+          <span class="tag">Cooperativa</span>
+          <span class="tag">Agroturismo</span>
+          <span class="tag">Longevidade</span>
+          <span class="tag">IA &amp; Robótica</span>
+          <span class="tag">Bem-Estar</span>
+          <span class="tag">Sustentável</span>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ─── CONTACTO ──────────────────────────────────────────── -->
+<!-- PILARES -->
+<section id="pilares">
+  <div class="inner">
+    <p class="label reveal">Estratégia</p>
+    <h2 class="h2 reveal d1">Os <em>quatro pilares</em> do projeto</h2>
+    <div class="pilares-grid">
+      <div class="pilar reveal"><div class="pilar-num">01</div><div class="pilar-icon">🏘️</div><h3 class="pilar-name">Núcleo Comunitário</h3><p class="pilar-sub">Desenvolvimento &amp; Governança</p><p class="pilar-desc">Define as regras, a coesão do grupo fundador e a sustentabilidade legal e financeira da comunidade.</p><ul class="pilar-list"><li>Cooperativa de Habitação</li><li>15–20 moradias ecológicas modulares</li><li>Modelo de decisão democrático</li><li>Receita recorrente partilhada</li></ul></div>
+      <div class="pilar reveal d1"><div class="pilar-num">02</div><div class="pilar-icon">🌿</div><h3 class="pilar-name">Alojamento &amp; Agroturismo</h3><p class="pilar-sub">Geração de Receita</p><p class="pilar-desc">Motor económico do projeto com experiências "Farm-to-Table", natureza e turismo de qualidade boutique.</p><ul class="pilar-list"><li>6 suites de alojamento turístico</li><li>Cozinha profissional · km 0</li><li>Atividades de experiência na quinta</li><li>Mercado médio-alto e autêntico</li></ul></div>
+      <div class="pilar reveal d2"><div class="pilar-num">03</div><div class="pilar-icon">🤖</div><h3 class="pilar-name">Saúde &amp; Tecnologia</h3><p class="pilar-sub">Diferenciação &amp; Qualidade de Vida</p><p class="pilar-desc">IA, robótica e telemedicina integradas no quotidiano para uma longevidade saudável e monitorizada.</p><ul class="pilar-list"><li>Pulseiras inteligentes com IA</li><li>Telemedicina e diagnóstico remoto</li><li>Retiros de Mindfulness e Nutrição</li><li>Ginásio adaptado e Sala de Yoga</li></ul></div>
+      <div class="pilar reveal d3"><div class="pilar-num">04</div><div class="pilar-icon">🤝</div><h3 class="pilar-name">Apoio Domiciliário</h3><p class="pilar-sub">Solidariedade &amp; Serviço</p><p class="pilar-desc">O pilar de serviço social, essencial para a ligação com a comunidade local e o impacto territorial.</p><ul class="pilar-list"><li>Serviços de apoio na área local</li><li>Centro de Dia Ligeiro (Day-Care)</li><li>Abertura de espaços à comunidade</li><li>Parcerias locais e impacto social</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- TECH / INOVAÇÃO -->
+<section id="tech">
+  <div class="tech-bg"></div>
+  <div class="tech-overlay"></div>
+  <div class="tech-grid-lines"></div>
+  <div class="tech-inner">
+    <div class="tech-content">
+      <p class="label reveal">Inovação</p>
+      <h2 class="h2 reveal d1">Natureza e <em>Tecnologia</em><br/>em harmonia</h2>
+      <div class="rule reveal d2"></div>
+      <p class="body-text reveal d2">A Quinta Avenida integra tecnologia de ponta no coração de um ambiente rural. Inteligência Artificial, sensores IoT e robótica ao serviço do bem-estar sénior, sem abdicar da autenticidade e da natureza.</p>
+    </div>
+    <div class="tech-cards">
+      <div class="tech-card reveal"><div class="tech-card-icon">🧠</div><div class="tech-card-title">Assistente IA</div><div class="tech-card-body">Sistema de assistência virtual com IA para monitorização, alertas e apoio no dia-a-dia.</div></div>
+      <div class="tech-card reveal d1"><div class="tech-card-icon">📡</div><div class="tech-card-title">Saúde Digital</div><div class="tech-card-body">Telemedicina, teleconsulta e diagnóstico remoto integrados na infraestrutura da quinta.</div></div>
+      <div class="tech-card reveal d2"><div class="tech-card-icon">⌚</div><div class="tech-card-title">Wearables</div><div class="tech-card-body">Pulseiras inteligentes com monitorização contínua de sinais vitais e alertas de segurança.</div></div>
+      <div class="tech-card reveal d3"><div class="tech-card-icon">🏠</div><div class="tech-card-title">Domótica</div><div class="tech-card-body">Casas inteligentes com controlo via app, acessibilidade sénior e eficiência energética A+.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- COMUNIDADE -->
+<section id="comunidade">
+  <div class="inner">
+    <div class="comunidade-header">
+      <p class="label reveal" style="justify-content:center"><span style="display:none"></span>Os Fundadores</p>
+      <h2 class="h2 reveal d1" style="text-align:center">A <em>comunidade</em> que<br/>dá vida ao projeto</h2>
+    </div>
+    <div class="members-grid">
+      <!-- Paulo Reis -->
+      <div class="member-card reveal">
+        <img class="member-avatar" src="Avatar_Paulo_Reis.png" alt="Paulo Reis"/>
+        <div class="member-info">
+          <h3 class="member-name">Paulo Reis</h3>
+          <p class="member-role">Co-Fundador · Tecnologia &amp; Inovação</p>
+          <p class="member-bio">Apaixonado pela natureza e pela tecnologia, Paulo traz a visão estratégica e o espírito de aventura que inspiram este projeto de vida partilhado.</p>
+        </div>
+      </div>
+      <!-- Rosário Ribeiro -->
+      <div class="member-card reveal d1">
+        <img class="member-avatar" src="Avatar_Rosario_Ribeiro.jpg" alt="Rosário Ribeiro"/>
+        <div class="member-info">
+          <h3 class="member-name">Rosário Ribeiro</h3>
+          <p class="member-role">Co-Fundadora · Bem-Estar &amp; Comunidade</p>
+          <p class="member-bio">Com um olhar atento ao bem-estar da comunidade, Rosário lidera a dimensão humana do projeto — cuidado, solidariedade e convívio intergeracional.</p>
+        </div>
+      </div>
+      <!-- Carine Cassab -->
+      <div class="member-card reveal d2">
+        <img class="member-avatar" src="Avatar_Carine_Cassab.jpg" alt="Carine Cassab"/>
+        <div class="member-info">
+          <h3 class="member-name">Carine Cassab</h3>
+          <p class="member-role">Co-Fundadora · Agroturismo &amp; Experiências</p>
+          <p class="member-bio">Com energia contagiante e ligação profunda à natureza, Carine é o motor do agroturismo e das experiências autênticas da Quinta Avenida.</p>
+        </div>
+      </div>
+      <!-- Rui Torres -->
+      <div class="member-card reveal d3">
+        <img class="member-avatar" src="Avatar_Rui_Torres.png" alt="Rui Torres"/>
+        <div class="member-info">
+          <h3 class="member-name">Rui Torres</h3>
+          <p class="member-role">Co-Fundador · Agroturismo &amp; Inovação</p>
+          <p class="member-bio">Empreendedor com visão prática, Rui alia o seu conhecimento do turismo rural à inovação para criar experiências únicas que diferenciam a Quinta.</p>
+        </div>
+      </div>
+      <!-- Ana Boto -->
+      <div class="member-card reveal d4">
+        <img class="member-avatar" src="Avatar_Ana_Boto.png" alt="Ana Boto"/>
+        <div class="member-info">
+          <h3 class="member-name">Ana Boto</h3>
+          <p class="member-role">Co-Fundadora · Agroturismo &amp; Inovação</p>
+          <p class="member-bio">Criativa e determinada, Ana contribui com novas ideias para o desenvolvimento sustentável do agroturismo e a integração de soluções inovadoras.</p>
+        </div>
+      </div>
+      <!-- Sofia Torres -->
+      <div class="member-card reveal">
+        <img class="member-avatar" src="Avatar_Sofia_Torres.png" alt="Sofia Torres"/>
+        <div class="member-info">
+          <h3 class="member-name">Sofia Torres</h3>
+          <p class="member-role">Co-Fundadora · Legal &amp; Mindfulness</p>
+          <p class="member-bio">Equilibrando rigor jurídico com a prática contemplativa, Sofia assegura a solidez legal do projeto e promove o bem-estar interior da comunidade.</p>
+        </div>
+      </div>
+      <!-- Luísa Gonçalves -->
+      <div class="member-card reveal d1">
+        <img class="member-avatar" src="Avatar_Luisa_Goncalves.png" alt="Luísa Gonçalves"/>
+        <div class="member-info">
+          <h3 class="member-name">Luísa Gonçalves</h3>
+          <p class="member-role">Co-Fundadora · Arquitectura &amp; Construção</p>
+          <p class="member-bio">Com olhar apurado para o detalhe e a funcionalidade, Luísa desenha espaços que harmonizam conforto, sustentabilidade e a beleza da envolvência rural.</p>
+        </div>
+      </div>
+      <!-- Dulce Martins -->
+      <div class="member-card reveal d2">
+        <img class="member-avatar" src="Avatar_Dulce_Martins.png" alt="Dulce Martins"/>
+        <div class="member-info">
+          <h3 class="member-name">Dulce Martins</h3>
+          <p class="member-role">Co-Fundadora · Lazer &amp; Viagens</p>
+          <p class="member-bio">Espírito livre e exploradora nata, Dulce traz a sua paixão por viagens e cultura para animar a vida social e os programas de lazer da comunidade.</p>
+        </div>
+      </div>
+      <!-- Carlos Teixeira -->
+      <div class="member-card reveal d3">
+        <img class="member-avatar" src="Avatar_Carlos_Teixeira.png" alt="Carlos Teixeira"/>
+        <div class="member-info">
+          <h3 class="member-name">Carlos Teixeira</h3>
+          <p class="member-role">Co-Fundador · Lazer &amp; Viagens</p>
+          <p class="member-bio">Aventureiro e sociável, Carlos é a força motriz das atividades ao ar livre e dos programas de convívio que fortalecem os laços entre todos.</p>
+        </div>
+      </div>
+      <!-- Isabel Btt -->
+      <div class="member-card reveal d4">
+        <img class="member-avatar" src="Avatar_Isa_Btt.png" alt="Isabel"/>
+        <div class="member-info">
+          <h3 class="member-name">Isabel</h3>
+          <p class="member-role">Co-Fundadora · Mindfulness</p>
+          <p class="member-bio">Praticante dedicada de mindfulness, Isabel cultiva a serenidade e o equilíbrio emocional, enriquecendo a dimensão contemplativa da Quinta Avenida.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INFRAESTRUTURA -->
+<section id="infraestrutura">
+  <div class="inner">
+    <p class="label reveal">Componentes Físicas</p>
+    <h2 class="h2 reveal d1">Infraestrutura pensada para<br/>a <em>vida em comunidade</em></h2>
+    <div class="infra-grid">
+      <div class="infra-card reveal"><div class="infra-icon">🏛️</div><h3 class="infra-title">Edifício Central</h3><p class="infra-body">6 suites de alojamento, cozinha profissional, sala polivalente, ginásio, piscina, sala de tratamentos e lavandaria industrial.</p></div>
+      <div class="infra-card reveal d1"><div class="infra-icon">🏡</div><h3 class="infra-title">Núcleo Residencial</h3><p class="infra-body">15–20 moradias independentes em madeira/CLT, eficiência A+, adaptadas à mobilidade sénior. Piso térreo, sem barreiras.</p></div>
+      <div class="infra-card reveal d2"><div class="infra-icon">☀️</div><h3 class="infra-title">Energia Autónoma</h3><p class="infra-body">Painéis solares fotovoltaicos e baterias comunitárias. Domótica, controlo via app e rede Wi-Fi para telemedicina.</p></div>
+      <div class="infra-card reveal"><div class="infra-icon">🥬</div><h3 class="infra-title">Horta Biológica</h3><p class="infra-body">Zona agrícola certificada para consumo próprio, restauração km 0 e oferta à comunidade local. Produção integrada.</p></div>
+      <div class="infra-card reveal d1"><div class="infra-icon">🚲</div><h3 class="infra-title">Mobilidade Verde</h3><p class="infra-body">Bicicletas elétricas e buggys partilhados adaptados a séniores. Frota de carros partilhados com pegada carbónica mínima.</p></div>
+      <div class="infra-card reveal d2"><div class="infra-icon">💻</div><h3 class="infra-title">Sede Operacional</h3><p class="infra-body">Centro de gestão administrativa do turismo, retiros e apoio domiciliário. Contratos, agendamentos e coordenação de rotas.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- VALORES -->
+<section id="valores">
+  <div class="inner">
+    <p class="label reveal">Os Nossos Princípios</p>
+    <h2 class="h2 reveal d1">Os valores que nos <em>unem</em></h2>
+    <div class="valores-grid">
+      <div class="valor reveal"><div class="valor-letter">A</div><div class="valor-text"><strong>Autoadministração</strong><p>Geridos pela própria comunidade, com participação ativa nas decisões.</p></div></div>
+      <div class="valor reveal d1"><div class="valor-letter">S</div><div class="valor-text"><strong>Solidariedade</strong><p>Colaboração e apoio mútuo para fortalecer os laços comunitários.</p></div></div>
+      <div class="valor reveal d2"><div class="valor-letter">I</div><div class="valor-text"><strong>Intergeracionalidade</strong><p>Diversidade de idades, integração e troca de experiências.</p></div></div>
+      <div class="valor reveal"><div class="valor-letter">E</div><div class="valor-text"><strong>Ecologia</strong><p>Compromisso com a natureza e autossuficiência por renováveis.</p></div></div>
+      <div class="valor reveal d1"><div class="valor-letter">C</div><div class="valor-text"><strong>Cuidado Compassivo</strong><p>Facilitar cuidados para quem precisa, promovendo bem-estar total.</p></div></div>
+      <div class="valor reveal d2"><div class="valor-letter">T</div><div class="valor-text"><strong>Tecnologia ao Serviço</strong><p>IA e inovação como ferramentas de qualidade de vida, não de distância.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
 <section id="contacto">
-  <div class="contacto-inner">
-    <p class="section-label reveal">Junte-se a Nós</p>
-    <h2 class="contacto-title reveal reveal-delay-1">
-      Fazer parte da<br/><em>Quinta Avenida</em>
-    </h2>
-    <p class="contacto-body reveal reveal-delay-2">
-      Este projeto está a ser construído por um grupo de amigos com uma visão partilhada.
-      Se se revê nesta forma de viver, entre em contacto e comecemos a conversa.
-    </p>
-
-    <form class="contact-form reveal reveal-delay-3" id="contactForm" onsubmit="handleSubmit(event)">
+  <div class="contacto-bg"></div>
+  <div class="contacto-overlay"></div>
+  <div class="contacto-grid-lines"></div>
+  <div class="cta-inner">
+    <p class="label reveal">Junte-se a Nós</p>
+    <h2 class="cta-title reveal d1">Fazer parte da<br/><em>Quinta Avenida</em></h2>
+    <p class="cta-body reveal d2">Este projeto está a ser construído por um grupo de amigos com uma visão partilhada. Se se revê nesta forma de viver — entre natureza e tecnologia — entre em contacto.</p>
+    <div class="contact-info reveal d2">
+      <strong>Paulo Reis</strong><br/>
+      📞 <a href="tel:+351917518041">917 518 041</a><br/>
+      ✉️ <a href="mailto:pauloribeiroreis@gmail.com">pauloribeiroreis@gmail.com</a>
+    </div>
+    <form class="form reveal d3" id="contactForm" onsubmit="handleSubmit(event)">
       <div class="form-row">
-        <div class="form-group">
-          <label for="nome">Nome</label>
-          <input type="text" id="nome" name="nome" placeholder="O seu nome completo" required />
-        </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" placeholder="o.seu@email.pt" required />
-        </div>
+        <div class="form-group"><label for="nome">Nome</label><input type="text" id="nome" name="nome" placeholder="O seu nome completo" required/></div>
+        <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" placeholder="o.seu@email.pt" required/></div>
       </div>
-
-      <div class="form-group">
-        <label for="interesse">Área de interesse</label>
+      <div class="form-group"><label for="interesse">Área de interesse</label>
         <select id="interesse" name="interesse">
           <option value="">Selecionar...</option>
-          <option value="residencia">Residência Permanente</option>
-          <option value="turismo">Agroturismo / Hospedagem</option>
-          <option value="saude">Saúde &amp; Bem-Estar</option>
-          <option value="investimento">Investimento / Cooperador</option>
-          <option value="parceria">Parceria Institucional</option>
-          <option value="outro">Outro</option>
+          <option>Residência Permanente</option>
+          <option>Agroturismo / Hospedagem</option>
+          <option>Saúde &amp; Bem-Estar</option>
+          <option>Cooperador / Investimento</option>
+          <option>Parceria Institucional</option>
+          <option>Outro</option>
         </select>
       </div>
-
-      <div class="form-group">
-        <label for="mensagem">Mensagem</label>
-        <textarea id="mensagem" name="mensagem" placeholder="Conte-nos um pouco sobre si e o seu interesse no projeto..."></textarea>
-      </div>
-
-      <button type="submit" class="btn-submit">Enviar Mensagem →</button>
+      <div class="form-group"><label for="msg">Mensagem</label><textarea id="msg" name="msg" placeholder="Conte-nos sobre si e o seu interesse no projeto..."></textarea></div>
+      <button type="submit" class="btn-send">Enviar Mensagem →</button>
     </form>
   </div>
 </section>
 
-<!-- ─── FOOTER ─────────────────────────────────────────────── -->
+<!-- FOOTER -->
 <footer>
   <div class="footer-logo">Quinta Avenida</div>
-  <p class="footer-text">© 2025 Quinta Avenida · Cooperativa de Habitação, Construção e de Solidariedade Social, CRL</p>
+  <p class="footer-copy">© 2025 Quinta Avenida · Cooperativa de Habitação, Construção e de Solidariedade Social, CRL</p>
   <ul class="footer-links">
     <li><a href="#sobre">Projeto</a></li>
-    <li><a href="#pilares">Pilares</a></li>
+    <li><a href="#comunidade">Comunidade</a></li>
     <li><a href="#contacto">Contacto</a></li>
   </ul>
 </footer>
 
-<!-- ─── TOAST ──────────────────────────────────────────────── -->
-<div class="toast" id="toast">
-  ✓ Mensagem enviada! Entraremos em contacto em breve.
-</div>
+<!-- TOAST -->
+<div class="toast" id="toast">✓ Mensagem enviada com sucesso!</div>
 
-<!-- ─── SCRIPTS ───────────────────────────────────────────── -->
 <script>
-  // Hero bg animation
-  window.addEventListener('load', () => {
-    document.getElementById('heroBg').classList.add('loaded');
-  });
-
   // Nav scroll
-  const navbar = document.getElementById('navbar');
-  window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 60);
-  });
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 60));
 
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
+  // Reveal on scroll
+  const observer = new IntersectionObserver(entries => {
     entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        observer.unobserve(e.target);
-      }
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
     });
-  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
-  reveals.forEach(el => observer.observe(el));
+  }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
   // Mobile menu
   function openMobile() {
@@ -1618,31 +580,53 @@
   }
   document.getElementById('mobileClose').addEventListener('click', closeMobile);
 
-  // Form submit
+  // EmailJS init
+  (function() {
+    if (typeof emailjs !== 'undefined') {
+      emailjs.init('YOUR_EMAILJS_PUBLIC_KEY'); // Replace with your EmailJS public key
+    }
+  })();
+
+  // Form submit with EmailJS
   function handleSubmit(e) {
     e.preventDefault();
-    const toast = document.getElementById('toast');
-    toast.classList.add('show');
-    e.target.reset();
-    setTimeout(() => toast.classList.remove('show'), 4000);
+    const t = document.getElementById('toast');
+    const form = e.target;
+    const nome = document.getElementById('nome').value;
+    const email = document.getElementById('email').value;
+    const interesse = document.getElementById('interesse').value;
+    const msg = document.getElementById('msg').value;
+
+    // Try EmailJS first
+    if (typeof emailjs !== 'undefined' && emailjs.send) {
+      emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', {
+        from_name: nome,
+        from_email: email,
+        interesse: interesse,
+        message: msg,
+        to_email: 'pauloribeiroreis@gmail.com'
+      }).then(function() {
+        t.textContent = '✓ Mensagem enviada com sucesso!';
+        t.classList.add('show');
+        form.reset();
+        setTimeout(() => t.classList.remove('show'), 4000);
+      }, function(err) {
+        // Fallback: mailto
+        window.location.href = 'mailto:pauloribeiroreis@gmail.com?subject=Contacto Quinta Avenida - ' + encodeURIComponent(nome) + '&body=' + encodeURIComponent('Nome: ' + nome + '\nEmail: ' + email + '\nInteresse: ' + interesse + '\n\nMensagem:\n' + msg);
+        t.textContent = '✓ A abrir o seu cliente de email...';
+        t.classList.add('show');
+        form.reset();
+        setTimeout(() => t.classList.remove('show'), 4000);
+      });
+    } else {
+      // Fallback: mailto
+      window.location.href = 'mailto:pauloribeiroreis@gmail.com?subject=Contacto Quinta Avenida - ' + encodeURIComponent(nome) + '&body=' + encodeURIComponent('Nome: ' + nome + '\nEmail: ' + email + '\nInteresse: ' + interesse + '\n\nMensagem:\n' + msg);
+      t.textContent = '✓ A abrir o seu cliente de email...';
+      t.classList.add('show');
+      form.reset();
+      setTimeout(() => t.classList.remove('show'), 4000);
+    }
   }
-
-  // Smooth active nav on scroll
-  const sections = document.querySelectorAll('section[id], div[id]');
-  const navLinks = document.querySelectorAll('.nav-links a');
-
-  window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(s => {
-      if (window.scrollY >= s.offsetTop - 200) current = s.id;
-    });
-    navLinks.forEach(a => {
-      a.style.color = a.getAttribute('href') === '#' + current
-        ? 'var(--gold)'
-        : '';
-    });
-  });
 </script>
-
 </body>
 </html>
