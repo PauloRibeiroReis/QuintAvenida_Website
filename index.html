@@ -566,7 +566,7 @@
     entries.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
     });
-  }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+  }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
   // Mobile menu
@@ -581,43 +581,41 @@
   document.getElementById('mobileClose').addEventListener('click', closeMobile);
 
   // EmailJS init
-  (function() {
-    if (typeof emailjs !== 'undefined') {
-      emailjs.init('YOUR_EMAILJS_PUBLIC_KEY'); // Replace with your EmailJS public key
-    }
-  })();
+  if (typeof emailjs !== 'undefined') {
+    emailjs.init('YOUR_EMAILJS_PUBLIC_KEY');
+  }
 
-  // Form submit with EmailJS
+  // Form submit
   function handleSubmit(e) {
     e.preventDefault();
-    const t = document.getElementById('toast');
-    const form = e.target;
-    const nome = document.getElementById('nome').value;
-    const email = document.getElementById('email').value;
-    const interesse = document.getElementById('interesse').value;
-    const msg = document.getElementById('msg').value;
+    var t = document.getElementById('toast');
+    var form = e.target;
+    var nome = document.getElementById('nome').value;
+    var email = document.getElementById('email').value;
+    var interesse = document.getElementById('interesse').value;
+    var msg = document.getElementById('msg').value;
 
-    // Try EmailJS first
     if (typeof emailjs !== 'undefined' && emailjs.send) {
       emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', {
-        from_name: nome,
-        from_email: email,
-        interesse: interesse,
-        message: msg,
+        from_name: nome, from_email: email, interesse: interesse, message: msg,
         to_email: 'pauloribeiroreis@gmail.com'
       }).then(function() {
-        t.textContent = '✓ Mensagem enviada com sucesso!';
-        t.classList.add('show');
-        form.reset();
-        setTimeout(() => t.classList.remove('show'), 4000);
-      }, function(err) {
-        // Fallback: mailto
-        window.location.href = 'mailto:pauloribeiroreis@gmail.com?subject=Contacto Quinta Avenida - ' + encodeURIComponent(nome) + '&body=' + encodeURIComponent('Nome: ' + nome + '\nEmail: ' + email + '\nInteresse: ' + interesse + '\n\nMensagem:\n' + msg);
-        t.textContent = '✓ A abrir o seu cliente de email...';
-        t.classList.add('show');
-        form.reset();
-        setTimeout(() => t.classList.remove('show'), 4000);
+        t.textContent = '\u2713 Mensagem enviada com sucesso!';
+        t.classList.add('show'); form.reset();
+        setTimeout(function(){ t.classList.remove('show'); }, 4000);
+      }, function() {
+        doMailto(nome, email, interesse, msg, t, form);
       });
     } else {
-      // Fallback: mailto
-      window.location.href = 'mailto:pauloribeiroreis@gmail.com?subject=Contacto Quinta Avenida - ' + encodeURIComponent(nome) + '&body=' + encodeURIComponent('Nome: ' + nome + '\nEmail: ' + email + '\nInte
+      doMailto(nome, email, interesse, msg, t, form);
+    }
+  }
+  function doMailto(nome, email, interesse, msg, t, form) {
+    window.location.href = 'mailto:pauloribeiroreis@gmail.com?subject=Contacto Quinta Avenida - ' + encodeURIComponent(nome) + '&body=' + encodeURIComponent('Nome: ' + nome + '\nEmail: ' + email + '\nInteresse: ' + interesse + '\n\nMensagem:\n' + msg);
+    t.textContent = '\u2713 A abrir o seu cliente de email...';
+    t.classList.add('show'); form.reset();
+    setTimeout(function(){ t.classList.remove('show'); }, 4000);
+  }
+</script>
+</body>
+</html>
